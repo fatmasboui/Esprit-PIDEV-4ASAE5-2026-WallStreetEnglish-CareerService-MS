@@ -36,4 +36,4 @@ jobs:
             -Dsonar.projectName="Career Service" \
             -Dsonar.organization=fatmasboui \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.token=$SONAR_TOKEN
