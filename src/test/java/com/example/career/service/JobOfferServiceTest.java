@@ -34,7 +34,6 @@ class JobOfferServiceTest {
         offer.setId(1L);
         offer.setTitle("Software Engineer");
         offer.setDescription("Job description");
-        offer.setLocation("Tunis");
     }
 
     @Test
