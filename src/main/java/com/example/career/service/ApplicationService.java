@@ -1,3 +1,5 @@
+package com.example.career.service;
+
 import com.example.career.entity.Application;
 import com.example.career.repository.ApplicationRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,4 +45,3 @@ public class ApplicationService {
         repository.deleteById(id);
     }
 }
-

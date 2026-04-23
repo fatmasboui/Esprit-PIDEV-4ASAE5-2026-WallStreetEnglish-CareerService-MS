@@ -44,4 +44,3 @@ public class JobOfferController {
         return ResponseEntity.noContent().build();
     }
 }
-

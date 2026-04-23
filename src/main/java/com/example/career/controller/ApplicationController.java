@@ -1,3 +1,5 @@
+package com.example.career.controller;
+
 import com.example.career.entity.Application;
 import com.example.career.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -42,4 +44,3 @@ public class ApplicationController {
         return ResponseEntity.noContent().build();
     }
 }
-

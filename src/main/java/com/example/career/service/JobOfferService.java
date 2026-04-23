@@ -46,4 +46,3 @@ public class JobOfferService {
         repository.deleteById(id);
     }
 }
-
