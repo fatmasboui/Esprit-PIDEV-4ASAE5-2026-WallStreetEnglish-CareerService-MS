@@ -29,11 +29,10 @@ jobs:
 
       - name: Build and analyze
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.sonartoken }}
         run: |
           mvn clean verify sonar:sonar \
             -Dsonar.projectKey=career-service \
             -Dsonar.projectName="Career Service" \
-            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN
