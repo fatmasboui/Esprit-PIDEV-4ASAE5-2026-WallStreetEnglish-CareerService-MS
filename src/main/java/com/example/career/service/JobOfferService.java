@@ -1,3 +1,5 @@
+package com.example.career.service;
+
 import com.example.career.entity.JobOffer;
 import com.example.career.repository.JobOfferRepository;
 import lombok.RequiredArgsConstructor;

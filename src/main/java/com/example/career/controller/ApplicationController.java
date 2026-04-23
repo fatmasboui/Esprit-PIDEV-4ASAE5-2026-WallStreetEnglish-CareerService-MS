@@ -1,8 +1,7 @@
-package com.example.career.controller;
-
 import com.example.career.entity.Application;
 import com.example.career.service.ApplicationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,33 +9,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/applications")
 @CrossOrigin(origins ="http://localhost:4200")
+@RequiredArgsConstructor
 public class ApplicationController {
 
-    @Autowired
-    private ApplicationService service;
+    private final ApplicationService service;
 
     @GetMapping
-    public List<Application> getAll() {
-        return service.getAllApplications();
+    public ResponseEntity<List<Application>> getAll() {
+        return ResponseEntity.ok(service.getAllApplications());
     }
 
     @GetMapping("/{id}")
-    public Application getById(@PathVariable Long id) {
-        return service.getApplicationById(id);
+    public ResponseEntity<Application> getById(@PathVariable Long id) {
+        Application application = service.getApplicationById(id);
+        return application != null ? ResponseEntity.ok(application) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public Application create(@RequestBody Application application) {
-        return service.saveApplication(application);
+    public ResponseEntity<Application> create(@RequestBody Application application) {
+        return ResponseEntity.ok(service.saveApplication(application));
     }
 
     @PutMapping("/{id}")
-    public Application update(@PathVariable Long id, @RequestBody Application application) {
-        return service.updateApplication(id, application);
+    public ResponseEntity<Application> update(@PathVariable Long id, @RequestBody Application application) {
+        Application updated = service.updateApplication(id, application);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteApplication(id);
+        return ResponseEntity.noContent().build();
     }
 }
+
