@@ -20,7 +20,7 @@
         <java.version>17</java.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <lombok.version>1.18.30</lombok.version>
-        <sonar.projectKey>Esprit-PIDEV-4ASAE5-2026-WallStreetEnglish-CareerService-MS</sonar.projectKey>
+        <sonar.projectKey>fatmasboui_Esprit-PIDEV-4ASAE5-2026-WallStreetEnglish-CareerService-MS</sonar.projectKey>
         <sonar.organization>fatmasboui</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.sources>src/main/java</sonar.sources>
