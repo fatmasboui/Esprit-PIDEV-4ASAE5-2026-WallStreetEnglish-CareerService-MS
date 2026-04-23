@@ -1,8 +1,7 @@
-package com.example.career.controller;
-
 import com.example.career.entity.JobOffer;
 import com.example.career.service.JobOfferService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,33 +9,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/job-offers")
 @CrossOrigin(origins ="http://localhost:4200")
+@RequiredArgsConstructor
 public class JobOfferController {
 
-    @Autowired
-    private JobOfferService service;
+    private final JobOfferService service;
 
     @GetMapping
-    public List<JobOffer> getAll() {
-        return service.getAllOffers();
+    public ResponseEntity<List<JobOffer>> getAll() {
+        return ResponseEntity.ok(service.getAllOffers());
     }
 
     @GetMapping("/{id}")
-    public JobOffer getById(@PathVariable Long id) {
-        return service.getOfferById(id);
+    public ResponseEntity<JobOffer> getById(@PathVariable Long id) {
+        JobOffer offer = service.getOfferById(id);
+        return offer != null ? ResponseEntity.ok(offer) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public JobOffer create(@RequestBody JobOffer offer) {
-        return service.saveOffer(offer);
+    public ResponseEntity<JobOffer> create(@RequestBody JobOffer offer) {
+        return ResponseEntity.ok(service.saveOffer(offer));
     }
 
     @PutMapping("/{id}")
-    public JobOffer update(@PathVariable Long id, @RequestBody JobOffer offer) {
-        return service.updateOffer(id, offer);
+    public ResponseEntity<JobOffer> update(@PathVariable Long id, @RequestBody JobOffer offer) {
+        JobOffer updated = service.updateOffer(id, offer);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteOffer(id);
+        return ResponseEntity.noContent().build();
     }
 }
+

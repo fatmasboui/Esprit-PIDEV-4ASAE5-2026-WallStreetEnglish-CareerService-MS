@@ -20,7 +20,9 @@ public class Application {
     @JsonBackReference
     private JobOffer jobOffer;
 
-    public Application() {}
+    public Application() {
+        // Empty constructor for JPA
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
