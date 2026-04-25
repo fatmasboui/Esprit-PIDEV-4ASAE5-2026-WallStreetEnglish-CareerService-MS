@@ -34,8 +34,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
-                        // Jib compile et envoie l'image sans avoir besoin de l'exécutable docker
-                        sh "mvn compile com.google.cloud.tools:jib-maven-plugin:3.4.0:build -Dimage=${DOCKER_HUB_USER}/${SERVICE_NAME}:latest -Djib.to.auth.username=\$DOCKER_HUB_USERNAME -Djib.to.auth.password=\$DOCKER_HUB_PASSWORD -Djib.from.image=openjdk:17-jdk-alpine"
+                        // Utilisation de eclipse-temurin:17-jdk-alpine car openjdk:17-jdk-alpine n'existe pas sur Docker Hub
+                        sh "mvn compile com.google.cloud.tools:jib-maven-plugin:3.4.0:build -Dimage=${DOCKER_HUB_USER}/${SERVICE_NAME}:latest -Djib.to.auth.username=\$DOCKER_HUB_USERNAME -Djib.to.auth.password=\$DOCKER_HUB_PASSWORD -Djib.from.image=eclipse-temurin:17-jdk-alpine"
                     }
                 }
             }
