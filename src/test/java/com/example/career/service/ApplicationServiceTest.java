@@ -32,35 +32,35 @@ public class ApplicationServiceTest {
     void setUp() {
         application = new Application();
         application.setId(1L);
-        application.setStudentName("John Doe");
+        application.setUserId(100L);
     }
 
     @Test
     void testGetAll() {
         when(repository.findAll()).thenReturn(Arrays.asList(application));
-        List<Application> results = service.getAll();
-        assertEquals(1, results.size());
+        List<Application> result = service.getAllApplications();
+        assertEquals(1, result.size());
     }
 
     @Test
     void testGetById() {
         when(repository.findById(1L)).thenReturn(Optional.of(application));
-        Application result = service.getById(1L);
+        Application result = service.getApplicationById(1L);
         assertNotNull(result);
-        assertEquals("John Doe", result.getStudentName());
+        assertEquals(100L, result.getUserId());
     }
 
     @Test
     void testSave() {
         when(repository.save(any(Application.class))).thenReturn(application);
-        Application result = service.save(new Application());
+        Application result = service.saveApplication(new Application());
         assertNotNull(result);
     }
 
     @Test
     void testDelete() {
         doNothing().when(repository).deleteById(1L);
-        service.delete(1L);
+        service.deleteApplication(1L);
         verify(repository, times(1)).deleteById(1L);
     }
 }

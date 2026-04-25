@@ -38,20 +38,20 @@ public class ApplicationControllerTest {
     void setUp() {
         application = new Application();
         application.setId(1L);
-        application.setStudentName("Test Student");
+        application.setUserId(100L);
     }
 
     @Test
     void testGetAll() throws Exception {
-        when(service.getAll()).thenReturn(Arrays.asList(application));
+        when(service.getAllApplications()).thenReturn(Arrays.asList(application));
         mockMvc.perform(get("/api/applications"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].studentName").value("Test Student"));
+                .andExpect(jsonPath("$[0].userId").value(100L));
     }
 
     @Test
     void testCreate() throws Exception {
-        when(service.save(any(Application.class))).thenReturn(application);
+        when(service.saveApplication(any(Application.class))).thenReturn(application);
         mockMvc.perform(post("/api/applications")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(application)))

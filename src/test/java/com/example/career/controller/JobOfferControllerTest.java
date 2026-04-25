@@ -43,7 +43,7 @@ public class JobOfferControllerTest {
 
     @Test
     void testGetAll() throws Exception {
-        when(service.getAll()).thenReturn(Arrays.asList(jobOffer));
+        when(service.getAllOffers()).thenReturn(Arrays.asList(jobOffer));
         mockMvc.perform(get("/api/job-offers"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").value("Test Job"));
@@ -51,7 +51,7 @@ public class JobOfferControllerTest {
 
     @Test
     void testCreate() throws Exception {
-        when(service.save(any(JobOffer.class))).thenReturn(jobOffer);
+        when(service.saveOffer(any(JobOffer.class))).thenReturn(jobOffer);
         mockMvc.perform(post("/api/job-offers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(jobOffer)))
