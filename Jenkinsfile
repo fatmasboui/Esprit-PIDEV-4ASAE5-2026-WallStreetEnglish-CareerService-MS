@@ -26,9 +26,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarcloud') {
-                    sh "mvn sonar:sonar -Dsonar.token=${SONAR_TOKEN} -Dsonar.projectKey=fatmasboui_Esprit-PiDev-4SAE5-2026-WallStreetEnglish-CareerService-MS -Dsonar.organization=fatmasboui -Dsonar.host.url=https://sonarcloud.io -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml"
-                }
+                sh "mvn sonar:sonar -Dsonar.projectKey=fatmasboui_Esprit-PiDev-4SAE5-2026-WallStreetEnglish-CareerService-MS -Dsonar.organization=fatmasboui -Dsonar.host.url=https://sonarcloud.io -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dsonar.token=\${SONAR_TOKEN}"
             }
         }
 
@@ -36,7 +34,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
-                        // Jib va compiler et envoyer l'image sur Docker Hub directement, sans utiliser le daemon Docker
+                        // Jib compile et envoie l'image sans avoir besoin de l'exécutable docker
                         sh "mvn compile com.google.cloud.tools:jib-maven-plugin:3.4.0:build -Dimage=${DOCKER_HUB_USER}/${SERVICE_NAME}:latest -Djib.to.auth.username=\$DOCKER_HUB_USERNAME -Djib.to.auth.password=\$DOCKER_HUB_PASSWORD -Djib.from.image=openjdk:17-jdk-alpine"
                     }
                 }
