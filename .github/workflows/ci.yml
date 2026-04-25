@@ -30,10 +30,4 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.sonartoken }}
-        run: |
-          mvn clean verify sonar:sonar \
-            -Dsonar.projectKey=fatmasboui_Esprit-PIDEV-4ASAE5-2026-WallStreetEnglish-CareerService-MS \
-            -Dsonar.projectName="Career Service" \
-            -Dsonar.organization=fatmasboui \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.token=$SONAR_TOKEN
+        run: mvn clean verify sonar:sonar -Dsonar.token=$SONAR_TOKEN
