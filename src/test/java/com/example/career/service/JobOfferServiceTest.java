@@ -35,7 +35,7 @@ public class JobOfferServiceTest {
         jobOffer.setId(1L);
         jobOffer.setTitle("Developer");
         jobOffer.setDescription("Java Dev");
-        jobOffer.setRequiredLevel(Level.JUNIOR);
+        jobOffer.setRequiredLevel(Level.A1);
         jobOffer.setActive(true);
     }
 
@@ -75,7 +75,7 @@ public class JobOfferServiceTest {
         JobOffer details = new JobOffer();
         details.setTitle("Senior Dev");
         details.setDescription("New Desc");
-        details.setRequiredLevel(Level.SENIOR);
+        details.setRequiredLevel(Level.C1);
         details.setActive(false);
 
         when(repository.findById(1L)).thenReturn(Optional.of(jobOffer));
@@ -85,7 +85,7 @@ public class JobOfferServiceTest {
 
         assertNotNull(result);
         assertEquals("Senior Dev", jobOffer.getTitle());
-        assertEquals(Level.SENIOR, jobOffer.getRequiredLevel());
+        assertEquals(Level.C1, jobOffer.getRequiredLevel());
         assertFalse(jobOffer.isActive());
     }
 
