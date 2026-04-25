@@ -44,7 +44,7 @@ public class ApplicationControllerTest {
     @Test
     void testGetAll() throws Exception {
         when(service.getAllApplications()).thenReturn(Arrays.asList(application));
-        mockMvc.perform(get("/api/applications"))
+        mockMvc.perform(get("/applications"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].userId").value(100L));
     }
@@ -52,7 +52,7 @@ public class ApplicationControllerTest {
     @Test
     void testCreate() throws Exception {
         when(service.saveApplication(any(Application.class))).thenReturn(application);
-        mockMvc.perform(post("/api/applications")
+        mockMvc.perform(post("/applications")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(application)))
                 .andExpect(status().isOk());
