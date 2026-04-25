@@ -50,6 +50,14 @@ public class JobOfferControllerTest {
     }
 
     @Test
+    void testGetById() throws Exception {
+        when(service.getOfferById(1L)).thenReturn(jobOffer);
+        mockMvc.perform(get("/job-offers/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Test Job"));
+    }
+
+    @Test
     void testCreate() throws Exception {
         when(service.saveOffer(any(JobOffer.class))).thenReturn(jobOffer);
         mockMvc.perform(post("/job-offers")

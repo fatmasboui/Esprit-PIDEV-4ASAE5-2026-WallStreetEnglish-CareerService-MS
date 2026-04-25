@@ -50,6 +50,14 @@ public class ApplicationControllerTest {
     }
 
     @Test
+    void testGetById() throws Exception {
+        when(service.getApplicationById(1L)).thenReturn(application);
+        mockMvc.perform(get("/applications/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.userId").value(100L));
+    }
+
+    @Test
     void testCreate() throws Exception {
         when(service.saveApplication(any(Application.class))).thenReturn(application);
         mockMvc.perform(post("/applications")
