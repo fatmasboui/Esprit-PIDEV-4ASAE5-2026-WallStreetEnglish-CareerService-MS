@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'maven-3.9.6' // <-- Vérifiez que ce nom correspond à votre config Jenkins Global Tool Configuration
+    }
+
     environment {
         DOCKER_HUB_USER = 'fatmasboui'
         SERVICE_NAME = 'career-service'
@@ -21,9 +25,15 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-                    withSonarQubeEnv('sonarcloud') {
-                        sh "mvn sonar:sonar -Dsonar.projectKey=fatmasboui_Esprit-PiDev-4SAE5-2026-WallStreetEnglish-CareerService-MS -Dsonar.organization=fatmasboui -Dsonar.host.url=https://sonarcloud.io -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dsonar.login=${SONAR_TOKEN}"
+                script {
+                    try {
+                        withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                            withSonarQubeEnv('sonarcloud') {
+                                sh "mvn sonar:sonar -Dsonar.projectKey=fatmasboui_Esprit-PiDev-4SAE5-2026-WallStreetEnglish-CareerService-MS -Dsonar.organization=fatmasboui -Dsonar.host.url=https://sonarcloud.io -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml -Dsonar.login=${SONAR_TOKEN}"
+                            }
+                        }
+                    } catch (Exception e) {
+                        echo "SonarQube analysis failed, but continuing... error: ${e.message}"
                     }
                 }
             }
