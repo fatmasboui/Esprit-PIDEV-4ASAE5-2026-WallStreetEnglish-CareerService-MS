@@ -3,14 +3,11 @@ pipeline {
 
     tools {
         maven 'maven3'
-        // On essaie de déclarer docker comme outil au cas où il est configuré dans Jenkins
-        // docker 'docker' 
     }
 
     environment {
         DOCKER_HUB_USER = 'fatmasboui'
         SERVICE_NAME = 'career-service'
-        // Utilisation du bon ID trouvé dans assessment-service
         SONAR_TOKEN = credentials('sonar-cloud-token')
     }
 
@@ -35,16 +32,12 @@ pipeline {
             }
         }
 
-        stage('Docker Build & Push') {
+        stage('Docker Build & Push (via Jib)') {
             steps {
                 script {
-                    // On essaie de construire l'image. 
-                    // Si 'docker' n'est pas trouvé, il faudra peut-être installer le plugin Docker sur Jenkins
-                    sh "docker build -t ${DOCKER_HUB_USER}/${SERVICE_NAME}:latest ."
-                    
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
-                        sh "echo \$DOCKER_HUB_PASSWORD | docker login -u \$DOCKER_HUB_USERNAME --password-stdin"
-                        sh "docker push ${DOCKER_HUB_USER}/${SERVICE_NAME}:latest"
+                        // Jib va compiler et envoyer l'image sur Docker Hub directement, sans utiliser le daemon Docker
+                        sh "mvn compile com.google.cloud.tools:jib-maven-plugin:3.4.0:build -Dimage=${DOCKER_HUB_USER}/${SERVICE_NAME}:latest -Djib.to.auth.username=\$DOCKER_HUB_USERNAME -Djib.to.auth.password=\$DOCKER_HUB_PASSWORD -Djib.from.image=openjdk:17-jdk-alpine"
                     }
                 }
             }
